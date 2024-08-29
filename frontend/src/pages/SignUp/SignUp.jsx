@@ -4,6 +4,7 @@ import PasswordInput from '../../components/input/PasswordInput';
 import { validateEmail } from '../../utils/helper';
 import {Link, useNavigate} from 'react-router-dom'
 import axiosInstance from '../../utils/axiosInstance';
+import loadingUI from '../../assets/images/loading.svg'
 
 function SignUp() {
 
@@ -11,6 +12,7 @@ function SignUp() {
     const [email, setEmail]= useState('');
     const [password, setPassword]= useState('');
     const [error, setError]= useState(null);
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
     
@@ -35,6 +37,7 @@ function SignUp() {
         setError('')
 
         //signup api call
+        setLoading(true);
         try {
             const response = await axiosInstance.post('/create-account', {
                 fullName: name,
@@ -56,13 +59,20 @@ function SignUp() {
             else{
                 setError('An Unexpected Error Occurred. Please try again.')
             }
+        }finally{
+            setLoading(true);
         }
     }
     
     return (
         <>
             <Navbar/>
-            <div className='flex items-center justify-center mt-28'>
+            {loading ? (
+                <div className='w-screen h-screen overflow-hidden text-center flex justify-center items-center font-bold text-6xl'>
+                    <img src={loadingUI} alt="Loading" className='h-36'/>
+                </div>
+            ):(
+                <div className='flex items-center justify-center mt-28'>
                 <div className='w-96 border rounded bg-white px-7 py-10'>
                     <form onSubmit={handleSignUp}>
                         <h4 className='text-2xl mb-7'>Signup</h4>
@@ -100,7 +110,9 @@ function SignUp() {
                         </p>
                     </form>
                 </div>
-            </div>
+                </div>
+            )}
+            
         </>
     )
 }

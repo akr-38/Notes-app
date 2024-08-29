@@ -3,7 +3,7 @@ import TagInput from '../../components/input/TagInput'
 import { MdClose } from 'react-icons/md';
 import axiosInstance from '../../utils/axiosInstance';
 
-function AddEditNotes({noteData, type, onClose, getAllNotes, showToastMessage}) {
+function AddEditNotes({noteData, type, onClose, getAllNotes, showToastMessage, setLoading}) {
     
     const [title, setTitle] = useState(noteData?.title || '');
     const [content, setContent] = useState(noteData?.content || '');
@@ -12,6 +12,8 @@ function AddEditNotes({noteData, type, onClose, getAllNotes, showToastMessage}) 
     const [error, setError] = useState('');
 
     const addNewNote = async()=>{
+        setLoading(true)
+        onClose();
         try {
             const response = await axiosInstance.post('/add-note',{
                 title,
@@ -19,18 +21,23 @@ function AddEditNotes({noteData, type, onClose, getAllNotes, showToastMessage}) 
                 tags
             })
             if(response.data?.note){
+                
+                await getAllNotes()
                 showToastMessage('Note Added Successfully')
-                getAllNotes()
-                onClose();
+                
             }
         } catch (error) {
             if(error.response?.data?.message){
                 setError(error.response.data.message)
             }
+        }finally{
+            setLoading(false);
         }
     }
 
     const editNote = async()=>{
+        setLoading(true)
+        onClose();
         try {
             const response = await axiosInstance.put(`/edit-note/${noteData._id}`,{
                 title,
@@ -38,14 +45,18 @@ function AddEditNotes({noteData, type, onClose, getAllNotes, showToastMessage}) 
                 tags
             })
             if(response.data?.note){
+                
+                await getAllNotes()
                 showToastMessage('Note Updated Successfully')
-                getAllNotes()
-                onClose();
+                
             }
         } catch (error) {
             if(error.response?.data?.message){
                 setError(error.response.data.message)
             }
+        }
+        finally{
+            setLoading(false);
         }
     }
     
