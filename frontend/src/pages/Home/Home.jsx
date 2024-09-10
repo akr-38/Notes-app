@@ -154,7 +154,7 @@ function Home() {
                     <img src={loadingUI} alt="Loading" className='h-36'/>
                 </div>
             ) : (
-                <div className='container mx-auto'>
+                <div className='container px-5 mx-auto'>
                     { allNotes.length === 0 ? ( isSearch === true ? 
                         <EmptyCard
                             imgSrc={noNotes} 
