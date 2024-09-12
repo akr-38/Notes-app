@@ -314,8 +314,8 @@ app.get('/search-notes/', authenticateToken, async(req,res)=>{
     }
 })
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`server is running at ${process.env.PORT  || 8000}`);
-});
+// app.listen(process.env.PORT, ()=>{
+//     console.log(`server is running at ${process.env.PORT  || 8000}`);
+// });
 
 export default app;
