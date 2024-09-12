@@ -310,9 +310,9 @@ mongoose.connect(process.env.MONGODB_URL)
         }
     })
 
-    app.listen(process.env.PORT, ()=>{
-        console.log(`server is running at ${process.env.PORT  || 8000}`);
-    });
+    // app.listen(process.env.PORT, ()=>{
+    //     console.log(`server is running at ${process.env.PORT  || 8000}`);
+    // });
 })
 .catch((err)=>{
     console.log('error connecting to mongodb:', err.message);
